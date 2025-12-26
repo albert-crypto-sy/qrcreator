@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visor QR Pro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root { --bg: #191919; }
+        body { 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            height: 100vh; margin: 0; background-color: var(--bg); overflow: hidden; font-family: sans-serif;
+            transition: background 0.5s ease;
+        }
+        
+        /* Botón de Pantalla Completa Flotante */
+        .controls {
+            position: fixed; top: 15px; right: 15px;
+            opacity: 0; transition: opacity 0.3s; z-index: 100;
+        }
+        body:hover .controls { opacity: 0.5; }
+        .controls:hover { opacity: 1; }
+
+        .icon-btn { 
+            color: white; cursor: pointer; background: rgba(0,0,0,0.3); 
+            border: 1px solid rgba(255,255,255,0.2); padding: 8px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .icon-btn:hover { transform: scale(1.1); background: rgba(0,0,0,0.6); }
+
+        #logoImg { margin-bottom: 30px; display: none; object-fit: contain; transition: width 0.3s ease; }
+        
+        #qrBox { 
+            padding: 20px; background: white; border-radius: 16px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            opacity: 0; transform: scale(0.9); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #qrBox.visible { opacity: 1; transform: scale(1); }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="icon-btn" onclick="toggleFullScreen()" title="Pantalla Completa">
+            <i data-lucide="maximize" id="fsIcon" style="width:20px; height:20px;"></i>
+        </button>
+    </div>
+
+    <img id="logoImg" src="" alt="Logo">
+    <div id="qrBox"><div id="qrcode"></div></div>
+
+    <script>
+        lucide.createIcons();
+        let lastSize = 0, lastData = "";
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // Actualizar icono cuando cambia el estado de pantalla completa
+        document.addEventListener('fullscreenchange', () => {
+            const icon = document.getElementById('fsIcon');
+            const isFull = !!document.fullscreenElement;
+            icon.setAttribute('data-lucide', isFull ? 'minimize' : 'maximize');
+            lucide.createIcons();
+        });
+
+        function update() {
+            const c = JSON.parse(localStorage.getItem('qrConfig') || '{}');
+            const data = localStorage.getItem('qrData'), logo = localStorage.getItem('qrLogo');
+            const currentSize = parseInt(c.qrSize) || 300;
+            
+            document.body.style.setProperty('--bg', c.w2_bg || '#191919');
+
+            const img = document.getElementById('logoImg');
+            if (logo) {
+                img.src = logo; img.style.display = 'block';
+                img.style.width = (c.logoSize || 100) + 'px'; 
+            } else { img.style.display = 'none'; }
+
+            const container = document.getElementById('qrcode'), box = document.getElementById('qrBox');
+            if (data && data.trim() !== "") {
+                if (data !== lastData || currentSize !== lastSize) {
+                    container.innerHTML = ""; 
+                    new QRCode(container, { 
+                        text: data, 
+                        width: currentSize, 
+                        height: currentSize, 
+                        correctLevel: QRCode.CorrectLevel.H 
+                    });
+                    lastSize = currentSize; lastData = data;
+                    box.classList.add('visible');
+                }
+            } else { box.classList.remove('visible'); }
+        }
+
+        window.addEventListener('storage', update);
+        update();
+        setInterval(update, 1000); 
+    </script>
+</body>
+</html>
