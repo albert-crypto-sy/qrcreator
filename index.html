@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERNETIC QR HUB</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Press+Start+2P&display=swap');
+
+        :root {
+            --neon-blue: #00ffff;
+            --neon-pink: #ff00ff;
+            --dark-bg: #1a0a20;
+            --medium-bg: #2d1a33;
+            --text-color: #e0e0e0;
+            --border-glow: rgba(0, 255, 255, 0.7);
+            --button-glow: rgba(255, 0, 255, 0.7);
+        }
+
+        body {
+            font-family: 'Major Mono Display', monospace;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at top left, var(--neon-blue) 0%, transparent 20%),
+                radial-gradient(circle at bottom right, var(--neon-pink) 0%, transparent 20%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .container {
+            background-color: var(--medium-bg);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--border-glow), 0 0 30px var(--border-glow) inset;
+            padding: 40px 60px;
+            border-radius: 10px;
+            max-width: 600px;
+            animation: glitch-border 5s infinite alternate;
+        }
+
+        @keyframes glitch-border {
+            0% { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--border-glow), 0 0 30px var(--border-glow) inset; }
+            25% { border-color: var(--neon-pink); box-shadow: 0 0 15px rgba(255, 0, 255, 0.7), 0 0 30px rgba(255, 0, 255, 0.7) inset; }
+            50% { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--border-glow), 0 0 30px var(--border-glow) inset; }
+            75% { border-color: var(--neon-pink); box-shadow: 0 0 15px rgba(255, 0, 255, 0.7), 0 0 30px rgba(255, 0, 255, 0.7) inset; }
+            100% { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--border-glow), 0 0 30px var(--border-glow) inset; }
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 15px var(--neon-blue);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            animation: text-flicker 3s infinite alternate;
+        }
+
+        @keyframes text-flicker {
+            0%, 19.9%, 22%, 24.9%, 50%, 54.9%, 70%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+            }
+            20%, 21.9%, 25%, 29.9%, 51%, 53.9%, 60%, 69.9% {
+                opacity: 0.8;
+                text-shadow: 0 0 2px var(--neon-pink), 0 0 8px var(--neon-pink);
+            }
+        }
+
+        p {
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .cyber-button {
+            background-color: transparent;
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--button-glow);
+            border-radius: 5px;
+        }
+
+        .cyber-button:hover {
+            background-color: var(--neon-pink);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+            transform: scale(1.05);
+        }
+
+        .footer-text {
+            margin-top: 50px;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Major Mono Display', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CYBERNETIC QR HUB</h1>
+        <p>Tu portal para la interacción digital en la red. Genera y decodifica códigos QR con la eficiencia del futuro.</p>
+        <div class="button-group">
+            <a href="web1.html" class="cyber-button">
+                GENERADOR QR
+                <br>
+                <small>[CODIFICAR]</small>
+            </a>
+            <a href="web2.html" class="cyber-button">
+                VISOR QR
+                <br>
+                <small>[DECODIFICAR]</small>
+            </a>
+        </div>
+    </div>
+    <div class="footer-text">
+        SYSTEM ONLINE // PROTOCOL ACTIVE
+    </div>
+</body>
+</html>
